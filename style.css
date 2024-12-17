@@ -352,3 +352,13 @@ body.hide-header .header {
 .chat-list .message .text i {
   font-style: italic;
 }
+
+.person-link {
+    color: #0066cc;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.person-link:hover {
+    text-decoration: underline;
+}

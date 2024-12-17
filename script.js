@@ -1,15 +1,18 @@
 let churchKnowledge = '';
 let aiRules = '';
 let conversationHistory = [];
+let linkFormatRules = '';
 
 // Load both files when the page loads
 Promise.all([
   fetch('church-knowledge.txt').then(response => response.text()),
-  fetch('ai-rules.txt').then(response => response.text())
+  fetch('ai-rules.txt').then(response => response.text()),
+  fetch('link-format-rules.txt').then(response => response.text())
 ])
-.then(([knowledge, rules]) => {
+.then(([knowledge, rules, linkRules]) => {
   churchKnowledge = knowledge;
   aiRules = rules;
+  linkFormatRules = linkRules;
 })
 .catch(error => console.error('Error loading files:', error));
 
@@ -53,24 +56,30 @@ const createMessageElement = (content, ...classes) => {
   return div;
 }
 
+const processLinks = (text) => {
+    return text.replace(/\[\[(.*?)\|\|(.*?)\]\]/g, (match, name, url) => {
+        return `<a href="${url}" class="person-link" target="_blank">${name}</a>`;
+    });
+}
+
 // Show typing effect by displaying words one by one
 const showTypingEffect = (text, textElement, incomingMessageDiv) => {
-  const words = text.split(' ');
-  let currentWordIndex = 0;
+    const processedText = processLinks(text); // Process the text first
+    const words = processedText.split(' ');
+    let currentWordIndex = 0;
 
-  const typingInterval = setInterval(() => {
-    // Change this line from innerText to innerHTML
-    textElement.innerHTML += (currentWordIndex === 0 ? '' : ' ') + words[currentWordIndex++];
-    incomingMessageDiv.querySelector(".icon").classList.add("hide");
+    const typingInterval = setInterval(() => {
+        textElement.innerHTML += (currentWordIndex === 0 ? '' : ' ') + words[currentWordIndex++];
+        incomingMessageDiv.querySelector(".icon").classList.add("hide");
 
-    if (currentWordIndex === words.length) {
-      clearInterval(typingInterval);
-      isResponseGenerating = false;
-      incomingMessageDiv.querySelector(".icon").classList.remove("hide");
-      localStorage.setItem("saved-chats", chatContainer.innerHTML);
-    }
-    chatContainer.scrollTo(0, chatContainer.scrollHeight);
-  }, 75);
+        if (currentWordIndex === words.length) {
+            clearInterval(typingInterval);
+            isResponseGenerating = false;
+            incomingMessageDiv.querySelector(".icon").classList.remove("hide");
+            localStorage.setItem("saved-chats", chatContainer.innerHTML);
+        }
+        chatContainer.scrollTo(0, chatContainer.scrollHeight);
+    }, 75);
 }
 
 // Fetch response from the API based on user message
@@ -85,12 +94,15 @@ const generateAPIResponse = async (incomingMessageDiv) => {
 
   // Add current context and rules
   const contextPrefix = `
-    ${aiRules}
-    
-    CHURCH KNOWLEDGE BASE:
-    ${churchKnowledge}
-    
-    Previous conversation context and current query: `;
+  ${aiRules}
+  
+  LINK FORMATTING RULES:
+  ${linkFormatRules}
+  
+  CHURCH KNOWLEDGE BASE:
+  ${churchKnowledge}
+  
+  Previous conversation context and current query: `;
 
   try {
     const response = await fetch(API_URL, {
