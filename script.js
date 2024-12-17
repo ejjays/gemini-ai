@@ -42,36 +42,39 @@ const showTypingEffect = (text, textElement, incomingMessageDiv) => {
   let currentWordIndex = 0;
 
   const typingInterval = setInterval(() => {
-    // Append each word to the text element with a space
-    textElement.innerText += (currentWordIndex === 0 ? '' : ' ') + words[currentWordIndex++];
+    // Change this line from innerText to innerHTML
+    textElement.innerHTML += (currentWordIndex === 0 ? '' : ' ') + words[currentWordIndex++];
     incomingMessageDiv.querySelector(".icon").classList.add("hide");
 
-    // If all words are displayed
     if (currentWordIndex === words.length) {
       clearInterval(typingInterval);
       isResponseGenerating = false;
       incomingMessageDiv.querySelector(".icon").classList.remove("hide");
-      localStorage.setItem("saved-chats", chatContainer.innerHTML); // Save chats to local storage
+      localStorage.setItem("saved-chats", chatContainer.innerHTML);
     }
-    chatContainer.scrollTo(0, chatContainer.scrollHeight); // Scroll to the bottom
+    chatContainer.scrollTo(0, chatContainer.scrollHeight);
   }, 75);
 }
 
 // Fetch response from the API based on user message
 const generateAPIResponse = async (incomingMessageDiv) => {
-  const textElement = incomingMessageDiv.querySelector(".text"); // Getting text element
+  const textElement = incomingMessageDiv.querySelector(".text");
+  
+  // Add your context/domain limitation here
+  const contextPrefix = "You are an AI assistant specifically trained for Our Church (Pag-ibig Christian Ministries). Only provide information about our church. If the question is outside these topics, respond with 'I can only answer questions about Pag-ibig Christian Ministries.' Topics allowed: Chrurch Schedule 9:30 AM, Youth Fellowship: Every First Sunday of the Month, Online Kamustahan: 6PM every Saturdays. ";
+  
+  // Combine context with user message
+  const limitedPrompt = contextPrefix + userMessage;
 
   try {
-    // Send a POST request to the API with the user's message
     const response = await fetch(API_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ 
         contents: [{ 
           role: "user", 
-          parts: [{ text: userMessage }] 
-        }] 
-      }),
+          parts: [{ text: limitedPrompt }] 
+         }),
     });
 
     const data = await response.json();
@@ -89,6 +92,7 @@ const generateAPIResponse = async (incomingMessageDiv) => {
     incomingMessageDiv.classList.remove("loading");
   }
 }
+
 
 // Show a loading animation while waiting for the API response
 const showLoadingAnimation = () => {
