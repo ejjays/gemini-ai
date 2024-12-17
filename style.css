@@ -342,3 +342,13 @@ body.hide-header .header {
     margin-top: 0.5rem;
   }
 }
+
+.chat-list .message .text strong,
+.chat-list .message .text b {
+  font-weight: 600;
+}
+
+.chat-list .message .text em,
+.chat-list .message .text i {
+  font-style: italic;
+}
