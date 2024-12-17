@@ -238,3 +238,27 @@ typingForm.addEventListener("submit", (e) => {
 });
 
 loadDataFromLocalstorage();
+
+
+const inputWrapper = document.querySelector(".typing-form .input-wrapper");
+const actionButtons = document.querySelector(".action-buttons");
+const typingInput = document.querySelector(".typing-input");
+
+typingInput.addEventListener("focus", () => {
+  inputWrapper.classList.add("expanded");
+  actionButtons.classList.add("hide");
+});
+
+typingInput.addEventListener("blur", () => {
+  if (typingInput.value.length === 0) {
+    inputWrapper.classList.remove("expanded");
+    actionButtons.classList.remove("hide");
+  }
+});
+
+typingInput.addEventListener("input", () => {
+  if (typingInput.value.length === 0 && !typingInput.matches(":focus")) {
+    inputWrapper.classList.remove("expanded");
+    actionButtons.classList.remove("hide");
+  }
+});

@@ -380,3 +380,26 @@ body.hide-header .header {
 .person-link:hover {
     text-decoration: underline;
 }
+
+
+/* Add these rules to your existing CSS */
+.typing-area .action-buttons {
+  transition: opacity 0.3s ease, width 0.3s ease;
+  opacity: 1;
+  width: auto;
+}
+
+.typing-area .action-buttons.hide {
+  opacity: 0;
+  width: 0;
+  pointer-events: none;
+}
+
+.typing-form .input-wrapper {
+  width: calc(100% - 120px); /* Initial width accounting for action buttons */
+  transition: width 0.3s ease;
+}
+
+.typing-form .input-wrapper.expanded {
+  width: 100%; /* Full width when expanded */
+}
