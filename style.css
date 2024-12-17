@@ -7,6 +7,9 @@
   box-sizing: border-box;
   font-family: "Poppins", sans-serif;
   -webkit-tap-highlight-color: transparent;
+  user-select: none;          /* Add this line */
+  -webkit-user-select: none;  /* Add this line for Safari */
+  -ms-user-select: none;
 }
 
 :root {
@@ -315,7 +318,13 @@ body.hide-header .header {
   transition: transform 0.2s ease;
 }
 
-.typing-form .typing-input:valid ~ #send-message-button {
+.typing-form .input-wrapper.expanded #send-message-button {
+  transform: scale(1);
+}
+
+/* Show the send button when there's text OR when input is expanded */
+.typing-form .typing-input:valid ~ #send-message-button,
+.typing-form .input-wrapper.expanded #send-message-button {
   transform: scale(1);
 }
 
