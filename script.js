@@ -1,3 +1,13 @@
+let churchKnowledge = ''; // Will store the content of the text file
+
+// Load the knowledge base from text file
+fetch('church-knowledge.txt')
+  .then(response => response.text())
+  .then(text => {
+    churchKnowledge = text;
+  })
+  .catch(error => console.error('Error loading knowledge base:', error));
+
 const typingForm = document.querySelector(".typing-form");
 const chatContainer = document.querySelector(".chat-list");
 const suggestions = document.querySelectorAll(".suggestion");
@@ -60,10 +70,14 @@ const showTypingEffect = (text, textElement, incomingMessageDiv) => {
 const generateAPIResponse = async (incomingMessageDiv) => {
   const textElement = incomingMessageDiv.querySelector(".text");
   
-  // Add your context/domain limitation here
-  const contextPrefix = "You are an AI assistant specifically trained for Our Church (Pag-ibig Christian Ministries). Only provide information about our church. If the question is outside these topics, respond with 'I can only answer questions about Pag-ibig Christian Ministries.' Topics allowed: Chrurch Schedule 9:30 AM, Youth Fellowship: Every First Sunday of the Month, Online Kamustahan: 6PM every Saturdays. ";
+  // Create context using the loaded text file
+  const contextPrefix = `You are an AI assistant for Pag-ibig Christian Ministries. 
+    Only provide information based on this knowledge base: 
+    ${churchKnowledge}
+    
+    If the question is outside this information, respond with 
+    'I can only answer questions about Pag-ibig Christian Ministries.'`;
   
-  // Combine context with user message
   const limitedPrompt = contextPrefix + userMessage;
 
   try {
@@ -73,8 +87,10 @@ const generateAPIResponse = async (incomingMessageDiv) => {
       body: JSON.stringify({ 
         contents: [{ 
           role: "user", 
-          parts: [{ text: limitedPrompt }] 
-         }),
+          parts: [{ text: limitedPrompt  
+           }] 
+        }]  // Added missing closing bracket here
+      }), // Added missing closing bracket here
     });
 
     const data = await response.json();
@@ -82,9 +98,9 @@ const generateAPIResponse = async (incomingMessageDiv) => {
 
     // Get the API response text and remove asterisks from it
     const apiResponse = data.candidates[0].content.parts[0].text
-  .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-    showTypingEffect(apiResponse, textElement, incomingMessageDiv); // Show typing effect
-  } catch (error) { // Handle error
+      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+    showTypingEffect(apiResponse, textElement, incomingMessageDiv);
+  } catch (error) {
     isResponseGenerating = false;
     textElement.innerText = error.message;
     textElement.parentElement.closest(".message").classList.add("error");
