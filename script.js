@@ -1,12 +1,16 @@
-let churchKnowledge = ''; // Will store the content of the text file
+let churchKnowledge = '';
+let aiRules = '';
 
-// Load the knowledge base from text file
-fetch('church-knowledge.txt')
-  .then(response => response.text())
-  .then(text => {
-    churchKnowledge = text;
-  })
-  .catch(error => console.error('Error loading knowledge base:', error));
+// Load both files when the page loads
+Promise.all([
+  fetch('church-knowledge.txt').then(response => response.text()),
+  fetch('ai-rules.txt').then(response => response.text())
+])
+.then(([knowledge, rules]) => {
+  churchKnowledge = knowledge;
+  aiRules = rules;
+})
+.catch(error => console.error('Error loading files:', error));
 
 const typingForm = document.querySelector(".typing-form");
 const chatContainer = document.querySelector(".chat-list");
@@ -70,13 +74,14 @@ const showTypingEffect = (text, textElement, incomingMessageDiv) => {
 const generateAPIResponse = async (incomingMessageDiv) => {
   const textElement = incomingMessageDiv.querySelector(".text");
   
-  // Create context using the loaded text file
-  const contextPrefix = `You are an AI assistant for Pag-ibig Christian Ministries. 
-    Only provide information based on this knowledge base: 
+  // Combine rules, knowledge, and context
+  const contextPrefix = `
+    ${aiRules}
+    
+    CHURCH KNOWLEDGE BASE:
     ${churchKnowledge}
     
-    If the question is outside this information, respond with 
-    'I can only answer questions about Pag-ibig Christian Ministries.'`;
+    Based on these rules and knowledge, please respond to the following: `;
   
   const limitedPrompt = contextPrefix + userMessage;
 
