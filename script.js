@@ -1,5 +1,6 @@
 let churchKnowledge = '';
 let aiRules = '';
+let conversationHistory = [];
 
 // Load both files when the page loads
 Promise.all([
@@ -29,11 +30,13 @@ const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-
 // Load theme and chat data from local storage on page load
 const loadDataFromLocalstorage = () => {
   const savedChats = localStorage.getItem("saved-chats");
+  const savedHistory = localStorage.getItem("conversation-history");
   const isLightMode = (localStorage.getItem("themeColor") === "light_mode");
 
-  // Apply the stored theme
-  document.body.classList.toggle("light_mode", isLightMode);
-  toggleThemeButton.innerText = isLightMode ? "dark_mode" : "light_mode";
+  // Load conversation history if it exists
+  if (savedHistory) {
+    conversationHistory = JSON.parse(savedHistory);
+  }
 
   // Restore saved chats or clear the chat container
   chatContainer.innerHTML = savedChats || '';
@@ -74,36 +77,50 @@ const showTypingEffect = (text, textElement, incomingMessageDiv) => {
 const generateAPIResponse = async (incomingMessageDiv) => {
   const textElement = incomingMessageDiv.querySelector(".text");
   
-  // Combine rules, knowledge, and context
+  // Create the conversation payload
+  const messages = conversationHistory.map(msg => ({
+    role: msg.role,
+    parts: [{ text: msg.content }]
+  }));
+
+  // Add current context and rules
   const contextPrefix = `
     ${aiRules}
     
     CHURCH KNOWLEDGE BASE:
     ${churchKnowledge}
     
-    Based on these rules and knowledge, please respond to the following: `;
-  
-  const limitedPrompt = contextPrefix + userMessage;
+    Previous conversation context and current query: `;
 
   try {
     const response = await fetch(API_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ 
-        contents: [{ 
-          role: "user", 
-          parts: [{ text: limitedPrompt  
-           }] 
-        }]  // Added missing closing bracket here
-      }), // Added missing closing bracket here
+        contents: [
+          ...messages,
+          { 
+            role: "user", 
+            parts: [{ text: contextPrefix + userMessage }] 
+          }
+        ]
+      }),
     });
 
     const data = await response.json();
     if (!response.ok) throw new Error(data.error.message);
 
-    // Get the API response text and remove asterisks from it
     const apiResponse = data.candidates[0].content.parts[0].text
       .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+    
+    // Add AI response to conversation history
+    conversationHistory.push({
+      role: "assistant",
+      content: apiResponse
+    });
+    
+    localStorage.setItem("conversation-history", JSON.stringify(conversationHistory));
+
     showTypingEffect(apiResponse, textElement, incomingMessageDiv);
   } catch (error) {
     isResponseGenerating = false;
@@ -147,9 +164,20 @@ const copyMessage = (copyButton) => {
 // Handle sending outgoing chat messages
 const handleOutgoingChat = () => {
   userMessage = typingForm.querySelector(".typing-input").value.trim() || userMessage;
-  if(!userMessage || isResponseGenerating) return; // Exit if there is no message or response is generating
+  if(!userMessage || isResponseGenerating) return;
 
   isResponseGenerating = true;
+
+  // Add user message to conversation history
+  conversationHistory.push({
+    role: "user",
+    content: userMessage
+  });
+
+  // Keep only last 10 messages
+  if (conversationHistory.length > 20) { // 20 because we store pairs of messages (user + ai)
+    conversationHistory = conversationHistory.slice(-20);
+  }
 
   const html = `<div class="message-content">
                   <img class="avatar" src="images/user.jpg" alt="User avatar">
@@ -177,6 +205,8 @@ toggleThemeButton.addEventListener("click", () => {
 deleteChatButton.addEventListener("click", () => {
   if (confirm("Are you sure you want to delete all the chats?")) {
     localStorage.removeItem("saved-chats");
+    localStorage.removeItem("conversation-history");
+    conversationHistory = [];
     loadDataFromLocalstorage();
   }
 });
