@@ -6,6 +6,7 @@
   padding: 0;
   box-sizing: border-box;
   font-family: "Poppins", sans-serif;
+  -webkit-tap-highlight-color: transparent;
 }
 
 :root {
@@ -16,6 +17,7 @@
   --primary-color: #242424;
   --secondary-color: #383838;
   --secondary-hover-color: #444;
+  transition: all 0.3s ease;
 }
 
 .light_mode {
@@ -30,6 +32,17 @@
 
 body {
   background: var(--primary-color);
+  transition: background-color 0.3s ease;
+}
+
+.chat-list .message .text,
+.header .title,
+.header .subtitle,
+.typing-form .typing-input,
+.typing-area .icon,
+.suggestion-list .suggestion,
+.chat-list .message .icon {
+  transition: all 0.3s ease;
 }
 
 .header, .chat-list .message, .typing-form {
@@ -91,7 +104,7 @@ body.hide-header .header {
   border-radius: 0.75rem;
   justify-content: space-between;
   background: var(--secondary-color);
-  transition: 0.2s ease;
+  transition: 0.3s ease;
 }
 
 .suggestion-list .suggestion:hover {
@@ -101,6 +114,7 @@ body.hide-header .header {
 .suggestion-list .suggestion :where(.text, .icon) {
   font-weight: 400;
   color: var(--text-color);
+  transition: all 0.3s ease;
 }
 
 .suggestion-list .suggestion .icon {
@@ -115,6 +129,7 @@ body.hide-header .header {
   justify-content: center;
   color: var(--text-color);
   background: var(--primary-color);
+  transition: all 0.3s ease;
 }
 
 .chat-list {
@@ -234,6 +249,7 @@ body.hide-header .header {
   bottom: 0;
   padding: 1rem;
   background: var(--primary-color);
+  transition: all 0.3s ease;
 }
 
 .typing-area :where(.typing-form, .action-buttons) {
@@ -259,6 +275,7 @@ body.hide-header .header {
   padding: 1.1rem 4rem 1.1rem 1.5rem;
   border-radius: 100px;
   background: var(--secondary-color);
+  transition: all 0.3s ease;
 }
 
 .typing-form .typing-input:focus {
@@ -281,7 +298,7 @@ body.hide-header .header {
   align-items: center;
   justify-content: center;
   background: var(--secondary-color);
-  transition: 0.2s ease;
+  transition: 0.3s ease;
 }
 
 .typing-area .icon:hover {
@@ -307,6 +324,7 @@ body.hide-header .header {
   font-size: 0.85rem;
   margin-top: 1rem;
   color: var(--placeholder-color);
+  transition: all 0.3s ease;
 }
 
 /* Responsive media query code for small screen */

@@ -52,3 +52,30 @@ Before sending any response, verify that:
 - No raw URLs are visible
 - Links are placed at the end of responses
 - Names in links match exactly with the authorized list
+
+
+Let me clarify the correct link formatting rules and show how they should be properly implemented:
+
+The correct format should be:
+```
+[[name||facebook_url]]
+```
+
+For example:
+"You can find [[Jeremy Alloso||https://www.facebook.com/jeremy.alloso.7]] on Facebook!"
+
+The rules are:
+1. ALWAYS use double square brackets [[]]
+2. ALWAYS use double vertical bars || to separate name and URL
+3. NEVER show raw URLs
+4. NEVER use HTML tags directly
+5. ALWAYS include the person's full name
+6. ALWAYS place the link format at the end of responses
+
+So when I mention someone, I should say something like:
+"Hello! Jeremy Alloso is part of our Music Ministry. You can find [[Jeremy Alloso||https://www.facebook.com/jeremy.alloso.7]] on Facebook!"
+
+NOT like I was doing before with:
+"You can find href="https://www.facebook.com/jeremy.alloso.7" class="person-link" target="_blank">Jeremy Alloso on Facebook!"
+
+I will make sure to strictly follow this [[name||url]] format going forward. Thank you for helping me improve my responses to better match the specified rules.

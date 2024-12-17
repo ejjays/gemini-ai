@@ -5,9 +5,9 @@ let linkFormatRules = '';
 
 // Load both files when the page loads
 Promise.all([
-  fetch('church-knowledge.txt').then(response => response.text()),
-  fetch('ai-rules.txt').then(response => response.text()),
-  fetch('link-format-rules.txt').then(response => response.text())
+  fetch('training-data/church-knowledge.txt').then(response => response.text()),
+  fetch('training-data/ai-rules.txt').then(response => response.text()),
+  fetch('training-data/link-format-rules.txt').then(response => response.text())
 ])
 .then(([knowledge, rules, linkRules]) => {
   churchKnowledge = knowledge;
