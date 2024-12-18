@@ -57,19 +57,17 @@ const createMessageElement = (content, ...classes) => {
 }
 
 const processLinks = (text) => {
-    // Handle incomplete HTML-style format where the opening <a tag is missing
-    text = text.replace(/\s+href="(https:\/\/www\.facebook\.com\/[^"]+)"[^>]+>([^<]+)/g, (match, url, name) => {
-        return ` <a href="${url}" class="person-link" target="_blank">${name}</a>`;
+    // Handle the specific format the AI is using:
+    // "You can find href="url" class="person-link" target="_blank">Name"
+    text = text.replace(/You can find\s+href="(https:\/\/www\.facebook\.com\/[^"]+)"[^>]+>([^<]+)/g, 
+        (match, url, name) => {
+            return `You can find <a href="${url}" class="person-link" target="_blank">${name}</a>`;
     });
 
-    // Handle complete HTML-style links (backup)
-    text = text.replace(/<a\s+href="(https:\/\/www\.facebook\.com\/[^"]+)"[^>]+>([^<]+)<\/a>/g, (match, url, name) => {
-        return `<a href="${url}" class="person-link" target="_blank">${name}</a>`;
-    });
-
-    // Handle [[name||url]] format (backup)
-    text = text.replace(/\[\[(.*?)\|\|(.*?)\]\]/g, (match, name, url) => {
-        return `<a href="${url}" class="person-link" target="_blank">${name}</a>`;
+    // Handle any other instances of the href format
+    text = text.replace(/\s+href="(https:\/\/www\.facebook\.com\/[^"]+)"[^>]+>([^<]+)/g, 
+        (match, url, name) => {
+            return ` <a href="${url}" class="person-link" target="_blank">${name}</a>`;
     });
 
     return text;
