@@ -57,12 +57,17 @@ const createMessageElement = (content, ...classes) => {
 }
 
 const processLinks = (text) => {
-    // First try to handle the AI's HTML-style format
-    text = text.replace(/href="(https:\/\/www\.facebook\.com\/[^"]+)"[^>]+>([^<]+)/g, (match, url, name) => {
+    // Handle incomplete HTML-style format where the opening <a tag is missing
+    text = text.replace(/\s+href="(https:\/\/www\.facebook\.com\/[^"]+)"[^>]+>([^<]+)/g, (match, url, name) => {
+        return ` <a href="${url}" class="person-link" target="_blank">${name}</a>`;
+    });
+
+    // Handle complete HTML-style links (backup)
+    text = text.replace(/<a\s+href="(https:\/\/www\.facebook\.com\/[^"]+)"[^>]+>([^<]+)<\/a>/g, (match, url, name) => {
         return `<a href="${url}" class="person-link" target="_blank">${name}</a>`;
     });
 
-    // Also keep the original formatter for [[name||url]] format just in case
+    // Handle [[name||url]] format (backup)
     text = text.replace(/\[\[(.*?)\|\|(.*?)\]\]/g, (match, name, url) => {
         return `<a href="${url}" class="person-link" target="_blank">${name}</a>`;
     });
