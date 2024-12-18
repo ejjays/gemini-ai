@@ -146,16 +146,13 @@ body.hide-header .header {
   margin-top: 1.5rem;
 }
 
-.chat-list .message .message-content {
-  display: flex;
-  gap: 1.5rem;
-  width: 100%;
-  align-items: center;
-}
 
 .chat-list .message .text {
-  color: var(--text-color);
+   color: var(--text-color);
   white-space: pre-wrap;
+  width: 100%;
+  padding: 0;
+  margin: 0;
 }
 
 .chat-list .message.error .text {
@@ -216,6 +213,7 @@ body.hide-header .header {
   gap: 0.8rem;
   width: 100%;
   flex-direction: column;
+  margin-top: 8px;
 }
 
 .chat-list .message.loading .loading-indicator {
@@ -411,4 +409,50 @@ body.hide-header .header {
 
 .typing-form .input-wrapper.expanded {
   width: 100%; /* Full width when expanded */
+}
+
+
+/* Base message styles */
+.chat-list .message .message-content {
+  display: flex;
+  width: 100%;
+}
+
+/* Outgoing (user) message styles */
+.chat-list .message.outgoing .message-content {
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+/* Incoming (AI) message styles */
+.chat-list .message.incoming .message-content {
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Message container for AI responses */
+.message-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+/* Header row for AI messages */
+.header-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 12px;
+}
+
+/* Avatar sizes */
+.header-row .avatar {
+  width: 30px;
+  height: 30px;
+}
+
+.chat-list .message.outgoing .avatar {
+  width: 40px;
+  height: 40px;
 }

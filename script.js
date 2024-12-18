@@ -148,22 +148,27 @@ const generateAPIResponse = async (incomingMessageDiv) => {
 // Show a loading animation while waiting for the API response
 const showLoadingAnimation = () => {
   const html = `<div class="message-content">
-                  <img class="avatar" src="images/gemini.svg" alt="Gemini avatar">
-                  <p class="text"></p>
-                  <div class="loading-indicator">
-                    <div class="loading-bar"></div>
-                    <div class="loading-bar"></div>
-                    <div class="loading-bar"></div>
+                  <div class="header-row">
+                    <img class="avatar" src="images/gemini.svg" alt="Gemini avatar">
+                    <div class="answer-indicator">Answer</div>
+                  </div>
+                  <div class="message-container">
+                    <p class="text"></p>
+                    <div class="loading-indicator">
+                      <div class="loading-bar"></div>
+                      <div class="loading-bar"></div>
+                      <div class="loading-bar"></div>
+                    </div>
                   </div>
                 </div>
                 <span onClick="copyMessage(this)" class="icon material-symbols-rounded">content_copy</span>`;
 
   const incomingMessageDiv = createMessageElement(html, "incoming", "loading");
   chatContainer.appendChild(incomingMessageDiv);
-
-  chatContainer.scrollTo(0, chatContainer.scrollHeight); // Scroll to the bottom
+  chatContainer.scrollTo(0, chatContainer.scrollHeight);
   generateAPIResponse(incomingMessageDiv);
 }
+
 
 // Copy message text to the clipboard
 const copyMessage = (copyButton) => {
@@ -187,11 +192,7 @@ const handleOutgoingChat = () => {
     content: userMessage
   });
 
-  // Keep only last 20 messages
-  if (conversationHistory.length > 20) { // 20 because we store pairs of messages (user + ai)
-    conversationHistory = conversationHistory.slice(-20);
-  }
-
+  // Keep the user message structure simple and inline
   const html = `<div class="message-content">
                   <img class="avatar" src="images/user.jpg" alt="User avatar">
                   <p class="text"></p>
