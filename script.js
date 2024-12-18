@@ -194,9 +194,11 @@ const handleOutgoingChat = () => {
 
   // Keep the user message structure simple and inline
   const html = `<div class="message-content">
-                  <img class="avatar" src="images/user.jpg" alt="User avatar">
+                <img class="avatar" src="images/user.jpg" alt="User avatar">
+                <div class="message-container">
                   <p class="text"></p>
-                </div>`;
+                </div>
+              </div>`;
 
   const outgoingMessageDiv = createMessageElement(html, "outgoing");
   outgoingMessageDiv.querySelector(".text").innerText = userMessage;

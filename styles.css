@@ -425,6 +425,14 @@ body.hide-header .header {
   gap: 1rem;
 }
 
+.chat-list .message.outgoing .message-container {
+  flex: 1;
+}
+
+.chat-list .message.outgoing .text {
+  margin: 0;
+}
+
 /* Incoming (AI) message styles */
 .chat-list .message.incoming .message-content {
   flex-direction: column;
@@ -455,4 +463,10 @@ body.hide-header .header {
 .chat-list .message.outgoing .avatar {
   width: 40px;
   height: 40px;
+}
+
+.answer-indicator {
+  color: #4285f4;
+  font-size: 0.9rem;
+  font-weight: 500;
 }
