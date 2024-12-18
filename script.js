@@ -27,7 +27,7 @@ let userMessage = null;
 let isResponseGenerating = false;
 
 // API configuration
-const API_KEY = "AIzaSyC0N559LhkMH1GqrvF1Pg7cpkMmaHMZgZg"; // Your API key here
+const API_KEY = "AIzaSyC0N559LhkMH1GqrvF1Pg7cpkMmaHMZgZg"; // API key 
 const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${API_KEY}`;
 
 // Load theme and chat data from local storage on page load
@@ -57,20 +57,11 @@ const createMessageElement = (content, ...classes) => {
 }
 
 const processLinks = (text) => {
-    // Handle the specific format the AI is using:
-    // "You can find href="url" class="person-link" target="_blank">Name"
-    text = text.replace(/You can find\s+href="(https:\/\/www\.facebook\.com\/[^"]+)"[^>]+>([^<]+)/g, 
-        (match, url, name) => {
-            return `You can find <a href="${url}" class="person-link" target="_blank">${name}</a>`;
+    // Look for the specific pattern and replace it with a clickable link
+    return text.replace(/You can find [^\s]+ on Facebook: \[(.*?)\]\((https:\/\/www\.facebook\.com\/[^\)]+)\)/g, 
+        (match, name, url) => {
+            return `You can find <a href="${url}" class="person-link" target="_blank">${name}</a> on Facebook.`;
     });
-
-    // Handle any other instances of the href format
-    text = text.replace(/\s+href="(https:\/\/www\.facebook\.com\/[^"]+)"[^>]+>([^<]+)/g, 
-        (match, url, name) => {
-            return ` <a href="${url}" class="person-link" target="_blank">${name}</a>`;
-    });
-
-    return text;
 }
 
 // Show typing effect by displaying words one by one
@@ -154,7 +145,6 @@ const generateAPIResponse = async (incomingMessageDiv) => {
   }
 }
 
-
 // Show a loading animation while waiting for the API response
 const showLoadingAnimation = () => {
   const html = `<div class="message-content">
@@ -197,7 +187,7 @@ const handleOutgoingChat = () => {
     content: userMessage
   });
 
-  // Keep only last 10 messages
+  // Keep only last 20 messages
   if (conversationHistory.length > 20) { // 20 because we store pairs of messages (user + ai)
     conversationHistory = conversationHistory.slice(-20);
   }
@@ -212,6 +202,10 @@ const handleOutgoingChat = () => {
   chatContainer.appendChild(outgoingMessageDiv);
   
   typingForm.reset(); // Clear input field
+  
+  inputWrapper.classList.remove("expanded");
+  actionButtons.classList.remove("hide");
+  
   document.body.classList.add("hide-header");
   chatContainer.scrollTo(0, chatContainer.scrollHeight); // Scroll to the bottom
   setTimeout(showLoadingAnimation, 500); // Show loading animation after a delay
@@ -250,7 +244,6 @@ typingForm.addEventListener("submit", (e) => {
 
 loadDataFromLocalstorage();
 
-
 const inputWrapper = document.querySelector(".typing-form .input-wrapper");
 const actionButtons = document.querySelector(".action-buttons");
 const typingInput = document.querySelector(".typing-input");
@@ -261,15 +254,43 @@ typingInput.addEventListener("focus", () => {
 });
 
 typingInput.addEventListener("blur", () => {
-  if (typingInput.value.length === 0) {
+  // Only collapse if there's no text
+  if (typingInput.value.length === 0 && !isResponseGenerating) {
     inputWrapper.classList.remove("expanded");
     actionButtons.classList.remove("hide");
   }
 });
 
 typingInput.addEventListener("input", () => {
-  if (typingInput.value.length === 0 && !typingInput.matches(":focus")) {
-    inputWrapper.classList.remove("expanded");
-    actionButtons.classList.remove("hide");
+  // Keep expanded while typing
+  if (typingInput.value.length > 0) {
+    inputWrapper.classList.add("expanded");
+    actionButtons.classList.add("hide");
   }
 });
+
+// Simplified event listeners
+let windowHeight = window.innerHeight;
+window.addEventListener('resize', () => {
+  // Only collapse if the keyboard is actually hiding (height increasing)
+  if (window.innerHeight > windowHeight) {
+    if (typingInput.value.length === 0) {
+      inputWrapper.classList.remove("expanded");
+      actionButtons.classList.remove("hide");
+    }
+  }
+  windowHeight = window.innerHeight;
+});
+
+// Only handle back button
+window.addEventListener('popstate', (e) => {
+  e.preventDefault();
+  history.pushState(null, null, window.location.href);
+});
+
+// For Android back button
+if (window.navigator.userAgent.match(/Android/i)) {
+  document.addEventListener('backbutton', (e) => {
+    e.preventDefault();
+  }, false);
+}

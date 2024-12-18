@@ -20,7 +20,7 @@
   --primary-color: #242424;
   --secondary-color: #383838;
   --secondary-hover-color: #444;
-  transition: all 0.3s ease;
+  transition: all 0.5s ease;
 }
 
 .light_mode {
@@ -35,7 +35,7 @@
 
 body {
   background: var(--primary-color);
-  transition: background-color 0.3s ease;
+  transition: background-color 0.5s ease;
 }
 
 .chat-list .message .text,
@@ -45,7 +45,7 @@ body {
 .typing-area .icon,
 .suggestion-list .suggestion,
 .chat-list .message .icon {
-  transition: all 0.3s ease;
+  transition: all 0.5s ease;
 }
 
 .header, .chat-list .message, .typing-form {
@@ -107,7 +107,7 @@ body.hide-header .header {
   border-radius: 0.75rem;
   justify-content: space-between;
   background: var(--secondary-color);
-  transition: 0.3s ease;
+  transition: 0.5s ease;
 }
 
 .suggestion-list .suggestion:hover {
@@ -117,7 +117,7 @@ body.hide-header .header {
 .suggestion-list .suggestion :where(.text, .icon) {
   font-weight: 400;
   color: var(--text-color);
-  transition: all 0.3s ease;
+  transition: all 0.5s ease;
 }
 
 .suggestion-list .suggestion .icon {
@@ -132,7 +132,7 @@ body.hide-header .header {
   justify-content: center;
   color: var(--text-color);
   background: var(--primary-color);
-  transition: all 0.3s ease;
+  transition: all 0.5s ease;
 }
 
 .chat-list {
@@ -252,7 +252,7 @@ body.hide-header .header {
   bottom: 0;
   padding: 1rem;
   background: var(--primary-color);
-  transition: all 0.3s ease;
+  transition: all 0.5s ease;
 }
 
 .typing-area :where(.typing-form, .action-buttons) {
@@ -278,7 +278,7 @@ body.hide-header .header {
   padding: 1.1rem 4rem 1.1rem 1.5rem;
   border-radius: 100px;
   background: var(--secondary-color);
-  transition: all 0.3s ease;
+  transition: all 0.5s ease;
 }
 
 .typing-form .typing-input:focus {
@@ -301,7 +301,7 @@ body.hide-header .header {
   align-items: center;
   justify-content: center;
   background: var(--secondary-color);
-  transition: 0.3s ease;
+  transition: 0.5s ease;
 }
 
 .typing-area .icon:hover {
@@ -328,12 +328,12 @@ body.hide-header .header {
   transform: scale(1);
 }
 
-.typing-area .disclaimer-text {
+.typing-area .footer-text {
   text-align: center;
   font-size: 0.85rem;
   margin-top: 1rem;
   color: var(--placeholder-color);
-  transition: all 0.3s ease;
+  transition: all 0.5s ease;
 }
 
 /* Responsive media query code for small screen */
@@ -364,7 +364,7 @@ body.hide-header .header {
     width: 50px;
   }
 
-  .typing-area .disclaimer-text {
+  .typing-area .footer-text {
     font-size: 0.75rem;
     margin-top: 0.5rem;
   }
@@ -393,7 +393,7 @@ body.hide-header .header {
 
 /* Add these rules to your existing CSS */
 .typing-area .action-buttons {
-  transition: opacity 0.3s ease, width 0.3s ease;
+  transition: opacity 0.3s ease, width 0.5s ease;
   opacity: 1;
   width: auto;
 }
@@ -406,7 +406,7 @@ body.hide-header .header {
 
 .typing-form .input-wrapper {
   width: calc(100% - 120px); /* Initial width accounting for action buttons */
-  transition: width 0.3s ease;
+  transition: width 0.5s ease;
 }
 
 .typing-form .input-wrapper.expanded {
