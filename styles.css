@@ -421,16 +421,20 @@ body.hide-header .header {
 /* Outgoing (user) message styles */
 .chat-list .message.outgoing .message-content {
   flex-direction: row;
-  align-items: flex-start;
+  align-items: center;
   gap: 1rem;
 }
 
 .chat-list .message.outgoing .message-container {
   flex: 1;
+  display: flex; /* Add this */
+  align-items: center; /* Add this */
+}
 }
 
 .chat-list .message.outgoing .text {
   margin: 0;
+  padding: 8px 0;
 }
 
 /* Incoming (AI) message styles */
@@ -465,8 +469,9 @@ body.hide-header .header {
   height: 40px;
 }
 
+/* AI "Answer" Word */
 .answer-indicator {
   color: #4285f4;
-  font-size: 0.9rem;
+  font-size: 1.2rem;
   font-weight: 500;
 }

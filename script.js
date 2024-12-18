@@ -142,6 +142,11 @@ const generateAPIResponse = async (incomingMessageDiv) => {
     textElement.parentElement.closest(".message").classList.add("error");
   } finally {
     incomingMessageDiv.classList.remove("loading");
+    
+ const answerIndicator = incomingMessageDiv.querySelector('.answer-indicator');
+    if (answerIndicator) {
+      answerIndicator.textContent = "Answer";
+    }
   }
 }
 
@@ -150,7 +155,7 @@ const showLoadingAnimation = () => {
   const html = `<div class="message-content">
                   <div class="header-row">
                     <img class="avatar" src="images/gemini.svg" alt="Gemini avatar">
-                    <div class="answer-indicator">Answer</div>
+                    <div class="answer-indicator">Thinking...</div>
                   </div>
                   <div class="message-container">
                     <p class="text"></p>
