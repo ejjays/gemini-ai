@@ -57,9 +57,17 @@ const createMessageElement = (content, ...classes) => {
 }
 
 const processLinks = (text) => {
-    return text.replace(/\[\[(.*?)\|\|(.*?)\]\]/g, (match, name, url) => {
+    // First try to handle the AI's HTML-style format
+    text = text.replace(/href="(https:\/\/www\.facebook\.com\/[^"]+)"[^>]+>([^<]+)/g, (match, url, name) => {
         return `<a href="${url}" class="person-link" target="_blank">${name}</a>`;
     });
+
+    // Also keep the original formatter for [[name||url]] format just in case
+    text = text.replace(/\[\[(.*?)\|\|(.*?)\]\]/g, (match, name, url) => {
+        return `<a href="${url}" class="person-link" target="_blank">${name}</a>`;
+    });
+
+    return text;
 }
 
 // Show typing effect by displaying words one by one

@@ -22,31 +22,14 @@ INCORRECT ❌:
 - ALWAYS use double vertical bars || to separate name and URL
 - ALWAYS place the link format at the end of your response
 
-4. AUTHORIZED FACEBOOK LINKS:
-- [[Pastor Manny Dimasaka||https://www.facebook.com/profile.php?id=100084821967511]]
-- [[Pastora Dez Dimasaka||https://www.facebook.com/mandez.dimasaka]]
-- [[Marlon Alloso||https://www.facebook.com/marlonalloso007]]
-- [[Jeremy Alloso||https://www.facebook.com/jeremy.alloso.7]]
-- [[James Marlon Alloso||https://www.facebook.com/jamesmarlon.alloso.94]]
-- [[Princess Alloso||https://www.facebook.com/profile.php?id=61565022737704]]
-- [[Mark Alloso||https://www.facebook.com/mark.alloso]]
-- [[Mae Maban||https://www.facebook.com/maeginzer.maban]]
-- [[Ashley Hernandez||https://www.facebook.com/AshleyHernandez07]]
-- [[Kristine Managat||https://www.facebook.com/kristine.managat.13]]
-- [[Michael Maban||https://www.facebook.com/mike.maban.7]]
-- [[Cassel Managat||https://www.facebook.com/cssl.wlsn]]
-- [[Von Hernandez||https://www.facebook.com/von.hernandez.758]]
-- [[Hannah Ruth||https://www.facebook.com/nah.Lopez015]]
-- [[Manuelita Alloso||https://www.facebook.com/manuelita.alloso]]
-- [[Jaica Armada||https://www.facebook.com/jaicss]]
 
-5. RESPONSE STRUCTURE:
+4. RESPONSE STRUCTURE:
 When mentioning a person:
 a) First response: Include role and basic info
 b) Follow-up response: Include additional details
 c) ALWAYS end with their Facebook link using the [[name||url]] format
 
-6. QUALITY CHECKS:
+5. QUALITY CHECKS:
 Before sending any response, verify that:
 - All Facebook links use the [[name||url]] format
 - No raw URLs are visible
@@ -79,3 +62,22 @@ NOT like I was doing before with:
 "You can find href="https://www.facebook.com/jeremy.alloso.7" class="person-link" target="_blank">Jeremy Alloso on Facebook!"
 
 I will make sure to strictly follow this [[name||url]] format going forward. Thank you for helping me improve my responses to better match the specified rules.
+
+
+AUTHORIZED FACEBOOK LINKS:
+- [[Pastor Manny Dimasaka||https://www.facebook.com/profile.php?id=100084821967511]]
+- [[Pastora Dez Dimasaka||https://www.facebook.com/mandez.dimasaka]]
+- [[Marlon Alloso||https://www.facebook.com/marlonalloso007]]
+- [[Jeremy Alloso||https://www.facebook.com/jeremy.alloso.7]]
+- [[James Marlon Alloso||https://www.facebook.com/jamesmarlon.alloso.94]]
+- [[Princess Alloso||https://www.facebook.com/profile.php?id=61565022737704]]
+- [[Mark Alloso||https://www.facebook.com/mark.alloso]]
+- [[Mae Maban||https://www.facebook.com/maeginzer.maban]]
+- [[Ashley Hernandez||https://www.facebook.com/AshleyHernandez07]]
+- [[Kristine Managat||https://www.facebook.com/kristine.managat.13]]
+- [[Michael Maban||https://www.facebook.com/mike.maban.7]]
+- [[Cassel Managat||https://www.facebook.com/cssl.wlsn]]
+- [[Von Hernandez||https://www.facebook.com/von.hernandez.758]]
+- [[Hannah Ruth||https://www.facebook.com/nah.Lopez015]]
+- [[Manuelita Alloso||https://www.facebook.com/manuelita.alloso]]
+- [[Jaica Armada||https://www.facebook.com/jaicss]]
