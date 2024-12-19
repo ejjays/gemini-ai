@@ -1,3 +1,0 @@
-EXAMPLE FORMAT LINK:
-
-You can find Michael on Facebook: <a href="https://www.facebook.com/mike.maban.7">Michael's Facebook</a>

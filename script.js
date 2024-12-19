@@ -1,5 +1,6 @@
-let churchKnowledge = '';
+let conversationFlowRules = '';
 let aiRules = '';
+let churchKnowledge = '';
 let conversationHistory = [];
 let linkFormatRules = '';
 
@@ -7,14 +8,17 @@ let linkFormatRules = '';
 Promise.all([
   fetch('training-data/church-knowledge.txt').then(response => response.text()),
   fetch('training-data/ai-rules.txt').then(response => response.text()),
-  fetch('training-data/link-format-rules.txt').then(response => response.text())
+  fetch('training-data/link-format-rules.txt').then(response => response.text()),
+  fetch('training-data/conversation-flow.txt').then(response => response.text())
 ])
-.then(([knowledge, rules, linkRules]) => {
+.then(([knowledge, rules, linkRules, flowRules]) => {
   churchKnowledge = knowledge;
   aiRules = rules;
   linkFormatRules = linkRules;
+  conversationFlowRules = flowRules;
 })
 .catch(error => console.error('Error loading files:', error));
+
 
 const typingForm = document.querySelector(".typing-form");
 const chatContainer = document.querySelector(".chat-list");
@@ -88,6 +92,7 @@ const showTypingEffect = (text, textElement, incomingMessageDiv) => {
 const generateAPIResponse = async (incomingMessageDiv) => {
   const textElement = incomingMessageDiv.querySelector(".text");
   
+  
   // Create the conversation payload
   const messages = conversationHistory.map(msg => ({
     role: msg.role,
@@ -96,6 +101,10 @@ const generateAPIResponse = async (incomingMessageDiv) => {
 
   // Add current context and rules
   const contextPrefix = `
+  PRIORITY - CONVERSATION FLOW RULES:
+  ${conversationFlowRules}
+  
+  SECONDARY RULES:
   ${aiRules}
   
   LINK FORMATTING RULES:
