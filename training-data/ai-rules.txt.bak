@@ -11,7 +11,6 @@
 - Use actual location names based on coordinates CALCULATE THEM AND PINPOINT WHERE IT IS EXACT ADDRESS.
 - Do not automatically relate to church location
 - Only mention church location if THE USER specifically asked IT
-- If you can't access the user location says so because they haven't allowed yet the permission to access location data.
 
 **IMPORTANT:**
 
