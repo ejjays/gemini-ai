@@ -4,6 +4,20 @@ let churchKnowledge = '';
 let conversationHistory = [];
 let linkFormatRules = '';
 
+// Add this after your initial variable declarations
+function getPhilippinesTime() {
+    return new Date().toLocaleString("en-US", {
+        timeZone: "Asia/Manila",
+        hour12: true,
+        hour: "numeric",
+        minute: "numeric",
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric"
+    });
+}
+
 // Load both files when the page loads
 Promise.all([
   fetch('training-data/church-knowledge.txt').then(response => response.text()),
@@ -92,15 +106,19 @@ const showTypingEffect = (text, textElement, incomingMessageDiv) => {
 const generateAPIResponse = async (incomingMessageDiv) => {
   const textElement = incomingMessageDiv.querySelector(".text");
   
-  
   // Create the conversation payload
   const messages = conversationHistory.map(msg => ({
     role: msg.role,
     parts: [{ text: msg.content }]
   }));
 
+  // Get current Philippines time
+  const currentTime = getPhilippinesTime();
+
   // Add current context and rules
   const contextPrefix = `
+  Current Date and Time in Philippines: ${currentTime}
+
   PRIORITY - CONVERSATION FLOW RULES:
   ${conversationFlowRules}
   
