@@ -18,6 +18,25 @@ function getPhilippinesTime() {
     });
 }
 
+function getUserLocation() {
+    return new Promise((resolve, reject) => {
+        if ("geolocation" in navigator) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    const latitude = position.coords.latitude;
+                    const longitude = position.coords.longitude;
+                    resolve(`Latitude: ${latitude}, Longitude: ${longitude}`);
+                },
+                (error) => {
+                    resolve("Location access denied or unavailable");
+                }
+            );
+        } else {
+            resolve("Geolocation is not supported by this browser");
+        }
+    });
+}
+
 // Load both files when the page loads
 Promise.all([
   fetch('training-data/church-knowledge.txt').then(response => response.text()),
@@ -112,12 +131,14 @@ const generateAPIResponse = async (incomingMessageDiv) => {
     parts: [{ text: msg.content }]
   }));
 
-  // Get current Philippines time
+  // Get current Philippines time and user location
   const currentTime = getPhilippinesTime();
+  const userLocation = await getUserLocation();
 
   // Add current context and rules
   const contextPrefix = `
   Current Date and Time in Philippines: ${currentTime}
+  User's Current Location: ${userLocation}
 
   PRIORITY - CONVERSATION FLOW RULES:
   ${conversationFlowRules}
