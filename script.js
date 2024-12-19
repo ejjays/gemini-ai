@@ -25,14 +25,39 @@ function getUserLocation() {
                 (position) => {
                     const latitude = position.coords.latitude;
                     const longitude = position.coords.longitude;
-                    resolve(`Latitude: ${latitude}, Longitude: ${longitude}`);
+                    
+                    // Simple address determination based on coordinates
+                    let address = "Unknown location";
+                    
+                    // Basic coordinate boundaries for Philippines
+                    if (latitude >= 4.5 && latitude <= 21.5 && 
+                        longitude >= 116.9 && longitude <= 126.6) {
+                        address = "Philippines";
+                        
+                        // You can add more specific regions if needed
+                        if (latitude >= 14.72 && latitude <= 14.73 && 
+                            longitude >= 121.03 && longitude <= 121.04) {
+                            address = "Quezon City area";
+                        }
+                    }
+
+                    resolve({
+                        coordinates: `${latitude}, ${longitude}`,
+                        address: address
+                    });
                 },
                 (error) => {
-                    resolve("Location access denied or unavailable");
+                    resolve({
+                        coordinates: "Location access denied",
+                        address: "Unable to determine location"
+                    });
                 }
             );
         } else {
-            resolve("Geolocation is not supported by this browser");
+            resolve({
+                coordinates: "Geolocation not supported",
+                address: "Unable to determine location"
+            });
         }
     });
 }
@@ -136,15 +161,17 @@ const generateAPIResponse = async (incomingMessageDiv) => {
   const userLocation = await getUserLocation();
 
   // Add current context and rules
-  const contextPrefix = `
-Current Date and Time in Philippines: ${currentTime}
-User's Current Location Data: ${userLocation}
+  const contextPrefix = `Current Date and Time in Philippines: ${currentTime}
+User's Current Location Data:
+Coordinates: ${userLocation.coordinates}
+Approximate Location: ${userLocation.address}
 
 LOCATION HANDLING RULES:
-- Provide exact coordinates first
-- Use actual location names based on coordinates CALCULATE THEM AND PINPOINT WHERE IT IS EXACT ADDRESS.
+- Provide exact coordinates when available
+- Use basic location names based on coordinate ranges
 - Do not automatically relate to church location
-- Only mention church location if THE USER specifically asked IT
+- Only mention church location if specifically asked
+;
 
   PRIORITY - CONVERSATION FLOW RULES:
   ${conversationFlowRules}
