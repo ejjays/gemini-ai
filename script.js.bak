@@ -142,9 +142,9 @@ User's Current Location Data: ${userLocation}
 
 LOCATION HANDLING RULES:
 - Provide exact coordinates first
-- Use actual location names based on coordinates CALCULATE THEM AND PINPOINT WHERE IT IS EXACT ADDRESS.
+- Use actual location names based on coordinates
 - Do not automatically relate to church location
-- Only mention church location if THE USER specifically asked IT
+- Only mention church location if specifically asked
 
   PRIORITY - CONVERSATION FLOW RULES:
   ${conversationFlowRules}
