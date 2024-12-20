@@ -73,18 +73,9 @@ const createMessageElement = (content, ...classes) => {
   return div;
 }
 
-const processLinks = (text) => {
-    // Look for the specific pattern and replace it with a clickable link
-    return text.replace(/You can find [^\s]+ on Facebook: \[(.*?)\]\((https:\/\/www\.facebook\.com\/[^\)]+)\)/g, 
-        (match, name, url) => {
-            return `You can find <a href="${url}" class="person-link" target="_blank">${name}</a> on Facebook.`;
-    });
-}
-
 // Show typing effect by displaying words one by one
 const showTypingEffect = (text, textElement, incomingMessageDiv) => {
-    const processedText = processLinks(text); // Process the text first
-    const words = processedText.split(' ');
+    const words = text.split(' '); // Changed from processedText to text
     let currentWordIndex = 0;
 
     const typingInterval = setInterval(() => {
