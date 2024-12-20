@@ -1,0 +1,9 @@
+You must use this format if the user asked about an person:
+
+replace "${url}" with the actual url domain of facebook and replace "${name}" with the actual facebook name o the user:
+
+`You can find <a href="${url}" class="person-link" target="_blank">${name}</a> on Facebook.`;
+
+
+For example: https://www.facebook.com/jeremy.alloso.7
+

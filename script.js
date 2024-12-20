@@ -18,25 +18,6 @@ function getPhilippinesTime() {
     });
 }
 
-function getUserLocation() {
-    return new Promise((resolve, reject) => {
-        if ("geolocation" in navigator) {
-            navigator.geolocation.getCurrentPosition(
-                (position) => {
-                    const latitude = position.coords.latitude;
-                    const longitude = position.coords.longitude;
-                    resolve(`Latitude: ${latitude}, Longitude: ${longitude}`);
-                },
-                (error) => {
-                    resolve("Location access denied or unavailable");
-                }
-            );
-        } else {
-            resolve("Geolocation is not supported by this browser");
-        }
-    });
-}
-
 // Load both files when the page loads
 Promise.all([
   fetch('training-data/church-knowledge.txt').then(response => response.text()),
@@ -51,7 +32,6 @@ Promise.all([
   conversationFlowRules = flowRules;
 })
 .catch(error => console.error('Error loading files:', error));
-
 
 const typingForm = document.querySelector(".typing-form");
 const chatContainer = document.querySelector(".chat-list");
@@ -131,14 +111,9 @@ const generateAPIResponse = async (incomingMessageDiv) => {
     parts: [{ text: msg.content }]
   }));
 
-  // Get current Philippines time and user location
-  const currentTime = getPhilippinesTime();
-  const userLocation = await getUserLocation();
-
   // Add current context and rules
   const contextPrefix = `
-  Current Date and Time in Philippines: ${currentTime}
-  User's Current Location: ${userLocation}
+  Current Date and Time in Philippines: ${getPhilippinesTime()}
 
   PRIORITY - CONVERSATION FLOW RULES:
   ${conversationFlowRules}
@@ -191,7 +166,7 @@ const generateAPIResponse = async (incomingMessageDiv) => {
   } finally {
     incomingMessageDiv.classList.remove("loading");
     
- const answerIndicator = incomingMessageDiv.querySelector('.answer-indicator');
+    const answerIndicator = incomingMessageDiv.querySelector('.answer-indicator');
     if (answerIndicator) {
       answerIndicator.textContent = "Answer";
     }
@@ -221,7 +196,6 @@ const showLoadingAnimation = () => {
   chatContainer.scrollTo(0, chatContainer.scrollHeight);
   generateAPIResponse(incomingMessageDiv);
 }
-
 
 // Copy message text to the clipboard
 const copyMessage = (copyButton) => {
